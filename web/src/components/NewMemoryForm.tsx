@@ -3,12 +3,13 @@
 import { Camera } from 'lucide-react'
 import { MediaPicker } from './MediaPicker'
 import { FormEvent } from 'react'
-import Cookie from 'js-cookie'
 import { api } from '@/lib/api'
+import Cookie from 'js-cookie'
 import { useRouter } from 'next/navigation'
 
 export function NewMemoryForm() {
   const router = useRouter()
+
   async function handleCreateMemory(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
@@ -16,12 +17,13 @@ export function NewMemoryForm() {
 
     const fileToUpload = formData.get('coverUrl')
 
-    let coverUrl
+    let coverUrl = ''
 
     if (fileToUpload) {
-      const uploadFormaData = new FormData()
-      uploadFormaData.set('file', fileToUpload)
-      const uploadResponse = await api.post('/upload', uploadFormaData)
+      const uploadFormData = new FormData()
+      uploadFormData.set('file', fileToUpload)
+
+      const uploadResponse = await api.post('/upload', uploadFormData)
 
       coverUrl = uploadResponse.data.fileUrl
     }
@@ -41,6 +43,7 @@ export function NewMemoryForm() {
         },
       },
     )
+
     router.push('/')
   }
 
@@ -64,7 +67,7 @@ export function NewMemoryForm() {
             name="isPublic"
             id="isPublic"
             value="true"
-            className="text-purple h-4 w-4 rounded border-gray-400 bg-gray-700 text-purple-500"
+            className="h-4 w-4 rounded border-gray-400 bg-gray-700 text-purple-500"
           />
           Tornar memória pública
         </label>
